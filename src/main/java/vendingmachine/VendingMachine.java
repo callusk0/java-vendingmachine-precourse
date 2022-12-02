@@ -9,7 +9,6 @@ public class VendingMachine {
     private List<Integer> coinList = Arrays.asList(0, 0, 0, 0);
     private int inputMoney = 0;
     private List<Goods> goodsList;
-    private int cheapest = Integer.MAX_VALUE;
 
     public int getInputMoney() {
         return inputMoney;
@@ -50,7 +49,8 @@ public class VendingMachine {
         setCheapest(goodsList);
     }
 
-    private void setCheapest(List<Goods> goodsList) {
+    private int setCheapest(List<Goods> goodsList) {
+        int cheapest = Integer.MAX_VALUE;
         for(int index = 0;index<goodsList.size();index++) {
             if(goodsList.get(index).amount < 0)
                 continue;
@@ -58,6 +58,7 @@ public class VendingMachine {
             if(currentGoodsPrise < cheapest)
                 cheapest = currentGoodsPrise;
         }
+        return cheapest;
     }
 
     public void setInputMoney(int inputMoney) {
@@ -127,6 +128,7 @@ public class VendingMachine {
     }
 
     public boolean CanPurchase() {
+        int cheapest = setCheapest(goodsList);
         if(inputMoney < cheapest || !checkGoodsIsPurchaseAble())
             return false;
         return true;
